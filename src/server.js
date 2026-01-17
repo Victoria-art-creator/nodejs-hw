@@ -10,9 +10,9 @@ import notesRoutes from './routes/notesRoutes.js';
 const PORT = process.env.PORT ?? 3000;
 const app = express();
 
+app.use(logger);
 app.use(express.json());
 app.use(cors());
-app.use(logger);
 
 app.use(notesRoutes);
 
