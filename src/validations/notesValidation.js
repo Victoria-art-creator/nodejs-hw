@@ -1,6 +1,6 @@
 import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
-import TAGS from '../constants/tags.js';
+import { TAGS } from '../constants/tags.js';
 
 export const getAllNotesSchema = {
   [Segments.QUERY]: Joi.object({
@@ -61,6 +61,7 @@ export const createNoteSchema = {
 
 export const updateNoteSchema = {
   [Segments.PARAMS]: noteIdSchema[Segments.PARAMS],
+
   [Segments.BODY]: Joi.object({
     title: Joi.string().min(1).messages({
       'string.base': 'Title must be a string',
@@ -76,5 +77,7 @@ export const updateNoteSchema = {
         'any.only':
           'Tag must be one of: Work, Personal, Meeting, Shopping, Ideas, Travel, Finance, Health, Important, Todo',
       }),
-  }).min(1),
+  })
+    .or('title', 'content', 'tag')
+    .unknown(false),
 };
