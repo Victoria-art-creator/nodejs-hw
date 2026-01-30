@@ -18,7 +18,7 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
-app.use(cookieParser);
+app.use(cookieParser());
 
 app.use(authRoutes);
 app.use(notesRoutes);

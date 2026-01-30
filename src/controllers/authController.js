@@ -42,7 +42,7 @@ export const loginUser = async (req, res) => {
     throw createHttpError(401, 'Invalid credentials');
   }
 
-  // await Session.deleteOne({ userId: user._id });
+  await Session.deleteOne({ userId: user._id });
 
   const newSession = await createSession(user._id);
 
@@ -72,14 +72,14 @@ export const refreshUserSession = async (req, res) => {
   });
 
   if (!session) {
-    return createHttpError(401, 'Session not found');
+    throw createHttpError(401, 'Session not found');
   }
 
   const isSessionTokenExpired =
     new Date() > new Date(session.refreshTokenValidUntil);
 
   if (isSessionTokenExpired) {
-    return createHttpError(401, 'Session token expired');
+    throw createHttpError(401, 'Session token expired');
   }
 
   await Session.deleteOne({
